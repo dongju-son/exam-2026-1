@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나의 3주 — 기말고사, 함께 준비하자</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;500;700;800&display=swap');
+  :root{
+    --navy:#2C5282; --burgundy:#9B3A4A; --gold:#B07D20;
+    --ink:#1c2433; --paper:#f7f4ee; --card:#ffffff;
+    --line:#e3ddd0; --muted:#6b7280; --gold-soft:#f3e8cf; --navy-soft:#e8eef6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:840px;margin:0 auto;padding:0 18px 90px}
+  nav{position:sticky;top:0;z-index:50;background:rgba(247,244,238,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:840px;margin:0 auto;padding:10px 18px;display:flex;gap:6px;overflow-x:auto}
+  .nav-in button{white-space:nowrap;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:20px;padding:8px 14px;font-family:'Pretendard';font-weight:600;font-size:13.5px;cursor:pointer;transition:.15s}
+  .nav-in button.active{background:var(--navy);border-color:var(--navy);color:#fff}
+  header{background:linear-gradient(135deg,var(--navy) 0%,#1f3a5f 100%);color:#fff;padding:44px 0 38px;position:relative;overflow:hidden;border-bottom:5px solid var(--gold)}
+  header::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border:2px solid rgba(176,125,32,.35);border-radius:50%}
+  .hero-in{max-width:840px;margin:0 auto;padding:0 18px;position:relative;z-index:2}
+  .eyebrow{font-size:13px;letter-spacing:3px;color:var(--gold-soft);font-weight:700;text-transform:uppercase}
+  h1{font-family:'Gowun Batang',serif;font-size:36px;font-weight:700;margin:8px 0 6px;line-height:1.25;cursor:default;user-select:none}
+  .hero-sub{color:#cdd9ea;font-size:15px;max-width:600px}
+  .dday-box{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:20px 24px;margin-top:22px;display:inline-flex;align-items:center;gap:18px;backdrop-filter:blur(4px)}
+  .dday-num{font-family:'Gowun Batang',serif;font-size:54px;font-weight:700;color:var(--gold-soft);line-height:1;cursor:pointer;user-select:none;transition:transform .1s}
+  .dday-num:active{transform:scale(.9)}
+  .dday-label{font-size:13px;color:#cdd9ea}
+  .page{display:none}
+  .page.active{display:block}
+  section{margin-top:34px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+  .sec-no{font-family:'Gowun Batang',serif;color:var(--gold);font-size:20px;font-weight:700}
+  h2{font-size:22px;font-weight:800;color:var(--navy)}
+  .sec-desc{color:var(--muted);font-size:14px;margin-bottom:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:14px}
+  /* GRADE SELECTOR - bigger */
+  .grade-wrap{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;margin-top:28px;box-shadow:0 2px 12px rgba(44,82,130,.06)}
+  .grade-title{text-align:center;font-weight:700;font-size:17px;color:var(--navy);margin-bottom:16px}
+  .grade-title span{color:var(--burgundy)}
+  .grade-sel{display:flex;gap:12px}
+  .grade-sel button{flex:1;padding:24px 12px;border:2px solid var(--line);background:#fafafa;border-radius:14px;cursor:pointer;font-family:'Gowun Batang',serif;font-weight:700;font-size:26px;color:var(--muted);transition:.18s;line-height:1.1}
+  .grade-sel button small{display:block;font-family:'Pretendard';font-size:12px;font-weight:600;margin-top:4px;opacity:.7}
+  .grade-sel button:hover{border-color:var(--navy);background:#fff}
+  .grade-sel button.active{background:var(--navy);border-color:var(--navy);color:#fff;transform:translateY(-3px) scale(1.03);box-shadow:0 8px 18px rgba(44,82,130,.3)}
+  .grade-sel button.active small{opacity:1}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:5px 9px;border-bottom:1px solid var(--line);vertical-align:middle;line-height:1.35}
+  th{color:var(--navy);font-weight:700;font-size:13px;background:var(--navy-soft)}
+  .t-day{font-weight:700;color:var(--burgundy);white-space:nowrap}
+  .t-period{color:var(--muted);font-size:12.5px;white-space:nowrap}
+  .t-subj{font-weight:600}
+  .range-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+  .range-card{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff}
+  .range-card h3{font-size:16px;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .range-card .ch{font-size:13.5px;color:var(--ink);white-space:pre-line;line-height:1.55}
+  .acc{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:10px;background:#fff}
+  .acc-head{padding:15px 18px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--navy);font-size:15.5px}
+  .acc-head:hover{background:var(--navy-soft)}
+  .acc-body{padding:0 18px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
+  .acc.open .acc-body{max-height:700px;padding:0 18px 18px}
+  .acc-body ul{margin-left:18px;font-size:14px;color:var(--ink)}
+  .acc-body li{margin-bottom:6px}
+  .acc-icon{transition:.3s;color:var(--gold)}
+  .acc.open .acc-icon{transform:rotate(45deg)}
+  .step{display:flex;gap:16px;margin-bottom:18px;align-items:flex-start}
+  .step-no{flex-shrink:0;width:38px;height:38px;background:var(--burgundy);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Gowun Batang',serif;font-weight:700;font-size:18px}
+  .step-body h3{font-size:16px;color:var(--navy);margin-bottom:3px}
+  .step-body p{font-size:14px;color:var(--ink)}
+  .ex-bad{color:#a06a6a} .ex-good{color:#1e7e4f;font-weight:600}
+  .note{background:var(--gold-soft);border-radius:10px;padding:14px 16px;font-size:13px;color:#7a5a13;margin-top:6px}
+  .anime{background:#fff;border:1px solid var(--line);border-left:4px solid var(--burgundy);border-radius:10px;padding:16px 18px;margin:14px 0}
+  .anime .line{font-family:'Gowun Batang',serif;font-size:16px;color:var(--ink);line-height:1.5}
+  .anime .src{font-size:12px;color:var(--muted);margin-top:8px;display:block}
+  .anime .msg{font-size:13.5px;color:var(--burgundy);margin-top:8px}
+  /* IB Learner Profile badge - subtle */
+  .lp{display:inline-flex;align-items:center;gap:5px;background:var(--navy-soft);color:var(--navy);border-radius:14px;padding:3px 11px;font-size:11.5px;font-weight:700;margin-top:2px}
+  .lp::before{content:"IB";font-size:9px;background:var(--navy);color:#fff;border-radius:4px;padding:1px 4px;letter-spacing:.5px}
+  .lp-line{font-size:12.5px;color:var(--muted);margin-top:14px;text-align:center;font-style:normal}
+  .lp-line b{color:var(--navy)}
+  /* PLANNER - checkbox based */
+  .plan-intro{background:var(--navy-soft);border-radius:12px;padding:16px 18px;font-size:14px;color:var(--navy);margin-bottom:16px}
+  /* 날짜 이동 바 */
+  .date-nav{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .date-nav button{width:46px;height:54px;border:1px solid var(--line);background:#fff;border-radius:12px;font-size:26px;color:var(--navy);cursor:pointer;flex-shrink:0;transition:.12s;line-height:1}
+  .date-nav button:hover{background:var(--navy-soft);border-color:var(--navy)}
+  .date-nav button:active{transform:scale(.95)}
+  .date-now{flex:1;text-align:center;background:linear-gradient(135deg,var(--navy),#1f3a5f);color:#fff;border-radius:12px;padding:10px 8px}
+  .date-main{font-family:'Gowun Batang',serif;font-size:21px;font-weight:700;line-height:1.2}
+  .date-sub{font-size:12px;color:#cdd9ea;margin-top:2px}
+  /* 3주 미니 트랙 */
+  .mini-track{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;padding:4px 0 2px}
+  .mini-track .dot{width:13px;height:13px;border-radius:50%;background:#e3ddd0;cursor:pointer;transition:.15s;border:2px solid transparent}
+  .mini-track .dot.has{background:var(--gold)}
+  .mini-track .dot.full{background:#1e7e4f}
+  .mini-track .dot.today{border-color:var(--navy);transform:scale(1.25)}
+  .mini-legend{font-size:11.5px;color:var(--muted);text-align:center;margin:6px 0 16px}
+  /* 오늘 카드 */
+  .today-card{padding:18px}
+  .plan-grade{display:flex;align-items:center;gap:6px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .plan-grade .pg-label{font-size:12.5px;color:var(--muted);font-weight:700;margin-right:4px}
+  .plan-grade button{flex:1;padding:9px;border:1px solid var(--line);background:#fff;border-radius:9px;cursor:pointer;font-family:'Pretendard';font-weight:700;font-size:14px;color:var(--muted);transition:.12s}
+  .plan-grade button.active{background:var(--navy);border-color:var(--navy);color:#fff}
+  .today-head{font-weight:700;color:var(--navy);font-size:15px;margin-bottom:10px}
+  .subj-row{display:flex;flex-wrap:wrap;gap:7px}
+  .today-list{margin-top:4px}
+  .today-list:not(:empty){margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+  .kw-guide{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+  .kw-title{font-size:13.5px;color:var(--navy);font-weight:700;margin-bottom:10px}
+  .kw-title b{color:var(--burgundy)}
+  .kw-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+  .kw-chip{border:1px dashed var(--gold);background:var(--gold-soft);color:#7a5a13;border-radius:16px;padding:6px 13px;font-size:13px;cursor:pointer;transition:.12s;user-select:none;font-weight:600}
+  .kw-chip:hover{background:var(--gold);color:#fff}
+  .kw-chip:active{transform:scale(.94)}
+  .chk{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f0ebe0}
+  .chk:last-of-type{border-bottom:none}
+  .chk .rate{display:flex;gap:5px;flex-shrink:0}
+  .chk .rate button{width:30px;height:30px;border:1px solid var(--line);background:#fff;border-radius:7px;cursor:pointer;font-size:15px;line-height:1;color:var(--muted);transition:.12s;padding:0}
+  .chk .rate button:hover{border-color:var(--navy)}
+  .chk .rate button.sel-o{background:#1e7e4f;border-color:#1e7e4f;color:#fff}
+  .chk .rate button.sel-t{background:var(--gold);border-color:var(--gold);color:#fff}
+  .chk .rate button.sel-x{background:#a06a6a;border-color:#a06a6a;color:#fff}
+  .chk span.txt{font-size:14.5px;flex:1}
+  .chk.rated-o span.txt{color:var(--ink)}
+  .chk.rated-x span.txt{color:var(--muted)}
+  .chk .sub-tag{font-size:11px;font-weight:700;color:#fff;background:var(--gold);border-radius:6px;padding:2px 7px;flex-shrink:0;min-width:38px;text-align:center}
+  .chk .rm{color:#c0392b;opacity:.4;cursor:pointer;font-size:17px;flex-shrink:0}
+  .chk .rm:hover{opacity:1}
+  .add-row{display:flex;gap:8px;margin-top:10px}
+  .add-row input{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-family:'Pretendard';font-size:13.5px}
+  .add-row input:focus{outline:none;border-color:var(--navy)}
+  .add-row button{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-family:'Pretendard';font-weight:600;font-size:13px;cursor:pointer}
+  .chip{border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:18px;padding:8px 16px;font-size:14px;font-weight:600;cursor:pointer;transition:.12s;user-select:none}
+  .chip:hover{background:var(--navy-soft)}
+  .chip:active{transform:scale(.94)}
+  .chip.open{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .task-menu{margin-top:10px;padding:12px;background:#fafafa;border:1px solid var(--line);border-radius:10px;display:none}
+  .task-menu.show{display:block}
+  .task-menu .tm-title{font-size:12.5px;color:var(--muted);margin-bottom:8px}
+  .task-menu .tm-opts{display:flex;flex-wrap:wrap;gap:7px}
+  .task-menu .tm-opt{border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:18px;padding:6px 14px;font-size:13.5px;cursor:pointer;transition:.12s;font-weight:600}
+  .task-menu .tm-opt:hover{background:var(--navy);color:#fff}
+  .task-menu .tm-opt:active{transform:scale(.94)}
+  .prog-wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .ring{position:relative;width:90px;height:90px;flex-shrink:0}
+  .ring svg{transform:rotate(-90deg)}
+  .ring-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Gowun Batang',serif;font-size:22px;font-weight:700;color:var(--navy)}
+  .prog-msg{flex:1;min-width:200px;font-size:15px}
+  .prog-msg b{color:var(--burgundy)}
+  .reflect textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:12px;font-family:'Pretendard';font-size:14px;resize:vertical;min-height:60px}
+  .reflect textarea:focus{outline:none;border-color:var(--navy)}
+  .reflect label{font-weight:600;font-size:14px;color:var(--navy);display:block;margin:14px 0 6px}
+  .pg-title{font-family:'Gowun Batang',serif;font-size:28px;color:var(--navy);padding:28px 0 4px}
+  .cta{background:var(--burgundy);color:#fff;border:none;border-radius:8px;padding:13px 26px;font-family:'Pretendard';font-weight:700;font-size:15px;cursor:pointer}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:40px;line-height:1.7}
+  /* easter egg toast */
+  #egg{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(120px);background:var(--navy);color:#fff;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,.25);z-index:999;transition:transform .4s cubic-bezier(.18,.89,.32,1.28);max-width:90%;text-align:center;border:2px solid var(--gold)}
+  #egg.show{transform:translateX(-50%) translateY(0)}
+  @keyframes confettiFall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
+  .confetti{position:fixed;top:-20px;width:10px;height:14px;z-index:998;animation:confettiFall linear forwards}
+  @media(max-width:520px){h1{font-size:29px}.dday-num{font-size:44px}th,td{font-size:13px;padding:5px 6px}.grade-sel button{font-size:22px;padding:20px 8px}}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     데이터 - 학년별 시험 일정/범위 (이미지 기준 반영)
+     ============================================================ -->
+<script>
+const EXAM_START = "2026-07-01";
+
+const SCHEDULE = {
+  "1": [
+    ["7/1","수",[["1교시","08:55~09:40","과학"],["2교시","10:15~11:00","자습"],["3교시","11:35~12:20","영어"]]],
+    ["7/2","목",[["1교시","08:55~09:40","도덕"],["2교시","10:15~11:00","자습"],["3교시","11:35~12:20","국어"]]],
+    ["7/3","금",[["1교시","08:55~09:40","사회"],["2교시","10:15~11:00","자습"],["3교시","11:35~12:20","수학"]]]
+  ],
+  "2": [
+    ["7/1","수",[["1교시","08:55~09:40","과학"],["2교시","10:15~11:00","자습"],["3교시","11:35~12:20","영어"]]],
+    ["7/2","목",[["1교시","08:55~09:40","도덕"],["2교시","10:15~11:00","역사"],["3교시","11:35~12:20","국어"]]],
+    ["7/3","금",[["1교시","08:55~09:40","한문"],["2교시","10:15~11:00","자습"],["3교시","11:35~12:20","수학"]]]
+  ],
+  "3": [
+    ["7/1","수",[["1교시","08:55~09:40","과학"],["2교시","10:15~11:00","기술·가정"],["3교시","11:35~12:20","영어"]]],
+    ["7/2","목",[["1교시","08:55~09:40","도덕"],["2교시","10:15~11:00","역사"],["3교시","11:35~12:20","국어"]]],
+    ["7/3","금",[["1교시","08:55~09:40","사회"],["2교시","10:15~11:00","자습"],["3교시","11:35~12:20","수학"]]]
+  ]
+};
+
+const RANGES = {
+  "1": [
+    ["국어","\u{1F4D6}","교과서 10~41쪽, 74~127쪽, 148~181쪽\n(1단원 문학과 삶에서 만나는 의미,\n2단원 정보를 전달하는 글쓰기,\n3단원 품사로 빛나는 세상, 4단원 문학과 갈등)"],
+    ["영어","\u{1F524}","교과서 10~57쪽\n(1. Happy Together ~ 3. Let's Be Positive)"],
+    ["과학","\u{1F52C}","교과서 14~111쪽\n(I. 과학과 인류의 지속가능한 삶 ~ III. 열)"],
+    ["수학","\u{1F4D0}","교과서 10~139쪽\n(I. 수와 연산 ~ II. 좌표평면과 그래프)"],
+    ["사회","\u{1F30F}","교과서 8~81쪽\n(I. 세계화 ~ VII. 아프리카)"],
+    ["도덕","\u{1F91D}","교과서 10~43쪽\n(I. 자신과의 관계 1·2), 66~121쪽\n(II. 타인과의 관계 전체)"]
+  ],
+  "2": [
+    ["국어","\u{1F4D6}","교과서 100~187쪽\n(3. 설명과 논리로 나누는 생각 ~\n4. 소통하며 성장하는 우리)"],
+    ["영어","\u{1F524}","교과서 48~77쪽\n(3. What a Great Idea! ~\n4. Are You Money Smart?)"],
+    ["과학","\u{1F52C}","교과서 98~167쪽\n(III. 빛과 파동 ~ IV. 물질의 구성)"],
+    ["수학","\u{1F4D0}","교과서 61~121쪽\n(II. 부등식과 연립방정식 ~ III. 일차함수)"],
+    ["역사","\u{1F4DC}","[유럽사] 교과서 86~103쪽\n(III.02 게르만족 이동과 프랑크 왕국 성장 ~\nIII.03 유럽 르네상스)\n[중국사] 교과서 42~55쪽 (II.03 춘추전국시대,\n진나라, 한나라), 66~75쪽 (III.01 동아시아\n문화의 형성 - 위진남북조, 수, 당)"],
+    ["도덕","\u{1F91D}","교과서 10~56쪽\n(I. 자신과의 관계 1·3, 마음의 평화),\n80~127쪽 (II. 타인과의 관계 전체)"],
+    ["한문","\u{1F4DD}","교과서 10~57쪽\n(01. 반가워요 한문 ~ 09. 학교에 가면)"]
+  ],
+  "3": [
+    ["국어","\u{1F4D6}","교과서 74~115쪽, 144~189쪽\n(2. 읽고 토론하며, 3. 통일을 향한\n국어의 길 ~ 4. 논증 방법 파악하며 읽기)"],
+    ["영어","\u{1F524}","교과서 44~83쪽\n(3. For the Love of Our Country ~\n4. Music to My Ears!)"],
+    ["과학","\u{1F52C}","교과서 98~169쪽\n(III. 운동과 에너지 ~ IV. 자극과 반응)"],
+    ["수학","\u{1F4D0}","교과서 72~122쪽\n(II. 인수분해와 이차방정식 ~ III. 이차함수)"],
+    ["역사","\u{1F4DC}","교과서 54~96쪽 (II.02 발해의 건국 ~\nII.03 권문세족의 성장), 100~109쪽\n(III.04 고려의 생활과 문화)"],
+    ["사회","\u{1F30F}","교과서 12~85쪽\n(I. 인권과 헌법 ~ V. 시장 경제와 가격)"],
+    ["도덕","\u{1F91D}","교과서 10~65쪽 (I. 타인과의 관계 전체),\n70~106쪽 (II. 사회·공동체와의 관계\n바람직한 자세, 정의란 무엇인가)"],
+    ["기술·가정","\u{1F527}","교과서 184~217쪽 (V. 정보 통신 기술과\n소통), 48~59쪽 (II.01 가족의 식사 계획)"]
+  ]
+};
+</script>
+
+<nav><div class="nav-in" id="navBar"></div></nav>
+
+<!-- PAGE 1 : LANDING -->
+<div class="page active" id="page-home">
+  <header><div class="hero-in">
+    <div class="eyebrow">생극중학교 · 자기주도 학습</div>
+    <h1 id="mainTitle">괜찮아, 오늘부터 하면 돼</h1>
+    <p class="hero-sub">시험이 다가오면 누구나 마음이 무거워져요. 혼자 막막해하지 않아도 돼요. 선생님이 길을 같이 그려뒀으니, 남은 날을 세어보는 것부터 천천히 시작해볼까요.</p>
+    <div class="dday-box"><div><div class="dday-num" id="ddayNum">D-?</div><div class="dday-label">기말고사까지</div></div></div>
+  </div></header>
+  <div class="wrap">
+    <div class="grade-wrap">
+      <div class="grade-title">먼저, <span>내 학년</span>을 눌러주세요</div>
+      <div class="grade-sel" id="gradeSel">
+        <button data-g="1">1학년<small>1st grade</small></button>
+        <button data-g="2">2학년<small>2nd grade</small></button>
+        <button data-g="3">3학년<small>3rd grade</small></button>
+      </div>
+    </div>
+
+    <section>
+      <div class="sec-head"><span class="sec-no">01</span><h2>시험 일정</h2></div>
+      <p class="sec-desc">언제 어떤 과목을 보는지 먼저 알아두면 마음이 한결 편해져요. 큰 그림을 그려두는 것만으로도 절반은 준비된 거예요.</p>
+      <div class="card" style="padding:2px 0"><table><thead><tr><th>날짜</th><th>교시 / 시간</th><th>과목</th></tr></thead><tbody id="schedBody"></tbody></table></div>
+    </section>
+    <section>
+      <div class="sec-head"><span class="sec-no">02</span><h2>과목별 시험 범위</h2></div>
+      <p class="sec-desc">무엇을 공부할지 정확히 알면, 들이는 노력이 헛되지 않아요. 여기서 범위를 확인하고 나만의 계획을 세워봐요.</p>
+      <div class="range-grid" id="rangeGrid"></div>
+    </section>
+    <div class="anime">
+      <div class="line">"내가 도와줄게. 혼자선 못 할 일도, 우린 함께라면 할 수 있어."</div>
+      <span class="src">— 원피스, 밀짚모자 일당의 마음</span>
+      <div class="msg">시험은 혼자 치르지만, 준비하는 길에는 선생님과 친구들이 함께 있어요.</div>
+    </div>
+    <p class="lp-line">스스로 시험을 준비하기로 마음먹은 너는, 오늘 <b>도전하는 사람(Risk-takers)</b>이 되었어요.</p>
+    <footer>이 페이지의 기록은 이 기기에만 잠시 머물러요. 마음에 든 계획은 사진으로 남겨두거나 손으로 한 번 더 옮겨 적어두면 좋아요. 천천히, 하지만 멈추지 않게.<br><span id="footerCheer" style="cursor:pointer;user-select:none">🐤</span></footer>
+  </div>
+</div>
+
+<!-- PAGE 2 : STUDY TIPS -->
+<div class="page" id="page-tips"><div class="wrap">
+  <div class="pg-title">과목별 공부법</div>
+  <p class="sec-desc">같은 시간을 들여도 과목마다 잘 맞는 방법이 달라요. 어렵게 느껴지는 과목부터 살며시 펼쳐볼까요. 한 가지만 따라 해봐도 분명 달라질 거예요.</p>
+  <div id="tipAcc"></div>
+  <div class="note">함께 기억해요 - (1) <b>읽기보다 풀어보기.</b> 눈으로 본 것보다 손으로 직접 풀어본 것이 오래 남아요. (2) <b>틀린 문제는 보물이에요.</b> 틀린 문제 하나를 다시 풀어보는 것이 점수를 가장 많이 올려줘요. (3) <b>친구에게 설명해보기.</b> 설명하다 막히는 곳이 바로 더 채우면 되는 부분이에요.</div>
+  <p class="lp-line">나에게 맞는 공부법을 찾아가는 너는, 이미 <b>성찰하는 사람(Reflective)</b>이에요.</p>
+  <div class="anime">
+    <div class="line">"노력은 배신하지 않아. 다만, 시간이 조금 걸릴 뿐이야."</div>
+    <span class="src">— 하이큐!! 카라스노의 정신에서</span>
+    <div class="msg">오늘 쌓은 작은 노력이 당장 안 보여도 괜찮아요. 시험 날, 분명 너의 편이 되어줄 거예요.</div>
+  </div>
+</div></div>
+
+<!-- PAGE 3 : HOW TO PLAN -->
+<div class="page" id="page-howto"><div class="wrap">
+  <div class="pg-title">계획 세우는 법</div>
+  <p class="sec-desc">계획표가 자꾸 흐지부지되는 건, 게을러서가 아니라 계획이 "두루뭉술"했기 때문일 때가 많아요. 지킬 수 있는 계획을 함께 짜는 5가지 방법을 알려줄게요.</p>
+  <div class="card">
+    <div class="step"><div class="step-no">1</div><div class="step-body"><h3>범위를 잘게 나눠봐요</h3><p>"수학 공부하기"는 너무 막막하죠. <span class="ex-bad">수학 공부</span> 대신 <span class="ex-good">수학 60~70쪽 풀기</span>처럼요. 한 단원을 3~4일로 나누면 훨씬 가벼워져요.</p></div></div>
+    <div class="step"><div class="step-no">2</div><div class="step-body"><h3>'움직이는 동사'로 적어요</h3><p>"보기, 읽기"는 어느새 흐려지기 쉬워요. <span class="ex-good">풀기, 외우기, 정리하기</span>처럼 손이 직접 움직이는 말로 적으면 실천하기 쉬워요.</p></div></div>
+    <div class="step"><div class="step-no">3</div><div class="step-body"><h3>하루 1~3개면 충분해요</h3><p>욕심내서 열 개를 적으면 오히려 시작이 어려워져요. 정말 끝낼 수 있는 만큼만 적어봐요. 다 해냈다는 작은 뿌듯함이 내일의 나를 움직여요.</p></div></div>
+    <div class="step"><div class="step-no">4</div><div class="step-body"><h3>약한 과목에 시간을 조금 더</h3><p>자신 있는 과목은 짧게, 마음 쓰이는 과목은 조금 더 길게. 모든 과목에 똑같이 나누기보다, 나에게 맞게 배분하는 게 진짜 똑똑한 방법이에요.</p></div></div>
+    <div class="step"><div class="step-no">5</div><div class="step-body"><h3>시험 전날은 복습만 해요</h3><p>전날 새로운 걸 보면 마음만 더 불안해져요. 마지막 날은 이미 풀어본 것, 틀렸던 것을 다시 보며 마음을 다독여줘요.</p></div></div>
+  </div>
+  <div class="note">계획대로 안 됐을 때 - 괜찮아요. 계획은 원래 조금씩 어긋나는 거예요. 자책하지 말고, 못 한 일을 다음 칸에 살며시 옮겨 적어봐요. 그게 바로 스스로를 돌보는 힘이에요.</div>
+  <p class="lp-line">공부와 휴식의 시간을 스스로 나누는 연습은 <b>균형 잡힌 사람(Balanced)</b>으로 가는 길이에요.</p>
+  <div class="anime">
+    <div class="line">"실패가 두려운 게 아니야. 도전하지 않은 채 끝나는 게 아쉬운 거지."</div>
+    <span class="src">— 성장하는 모든 주인공들처럼</span>
+    <div class="msg">완벽하지 않아도 돼요. 오늘 한 칸이라도 채워보는 그 마음이 가장 멋져요.</div>
+  </div>
+  <div style="text-align:center;margin-top:24px"><button class="cta" onclick="go('plan')">이제 나만의 계획 짜러 가기 →</button></div>
+</div></div>
+
+<!-- PAGE 4 : PLANNER (오늘 중심) -->
+<div class="page" id="page-plan"><div class="wrap">
+  <div class="pg-title">나만의 계획 짜기</div>
+  <div class="plan-intro"><b>오늘</b> 할 공부를 과목에서 골라 담고, 끝나면 <b>○ △ ✗</b>로 스스로 평가해봐요. 날짜는 화살표로 옮길 수 있어요.</div>
+
+  <!-- 날짜 이동 바 -->
+  <div class="date-nav">
+    <button id="prevDay" aria-label="이전 날">‹</button>
+    <div class="date-now"><div class="date-main" id="dateMain">—</div><div class="date-sub" id="dateSub"></div></div>
+    <button id="nextDay" aria-label="다음 날">›</button>
+  </div>
+
+  <!-- 3주 진행 미니바 -->
+  <div class="mini-track" id="miniTrack" title="3주 전체 진행 상황"></div>
+  <div class="mini-legend">21일 중 평가를 마친 날은 색이 차요. 점을 누르면 그 날로 이동해요.</div>
+
+  <!-- 오늘 할 일 -->
+  <div class="card today-card">
+    <div class="plan-grade" id="planGrade">
+      <span class="pg-label">학년</span>
+      <button data-g="1">1학년</button><button data-g="2">2학년</button><button data-g="3">3학년</button>
+    </div>
+    <div class="today-head">오늘 할 공부 고르기</div>
+    <div class="subj-row" id="subjRow"></div>
+
+    <div class="kw-guide">
+      <div class="kw-title" id="kwTitle">공부, 어떤 걸 할까요?</div>
+      <div class="kw-chips" id="kwChips"></div>
+      <div class="add-row">
+        <input type="text" id="freeInput" placeholder="직접 입력 (선택)">
+        <button id="freeAdd">추가</button>
+      </div>
+    </div>
+
+    <div class="today-list" id="todayList"></div>
+  </div>
+
+  <!-- 오늘의 진척률 -->
+  <div class="card prog-wrap">
+    <div class="ring"><svg width="90" height="90"><circle cx="45" cy="45" r="38" stroke="#e3ddd0" stroke-width="9" fill="none"/><circle id="ringFill" cx="45" cy="45" r="38" stroke="#9B3A4A" stroke-width="9" fill="none" stroke-dasharray="238" stroke-dashoffset="238" stroke-linecap="round"/></svg><div class="ring-txt" id="ringPct">0%</div></div>
+    <div class="prog-msg" id="progMsg">과목을 눌러 오늘 할 공부를 담아보는 것, 그게 멋진 첫걸음이에요.</div>
+  </div>
+
+  <p class="lp-line">○ 잘했어요 · △ 조금 더 · ✗ 아직 — 솔직하게 평가하는 너는 <b>성찰하는 사람(Reflective)</b>이에요.</p>
+
+  <section class="reflect">
+    <div class="sec-head"><span class="sec-no">+</span><h2>오늘의 한 줄</h2></div>
+    <p class="sec-desc">공부만큼 소중한 건, 오늘의 나를 따뜻하게 돌아보는 일이에요.</p>
+    <div class="card">
+      <label>오늘 가장 잘한 것 한 가지</label><textarea placeholder="예: 미루던 영어 단어를 끝까지 외웠어요"></textarea>
+      <label>내일의 나에게 건네는 한마디</label><textarea placeholder="예: 수학은 아침에 먼저 해보자. 넌 할 수 있어."></textarea>
+    </div>
+  </section>
+  <footer>창을 닫으면 기록이 사라져요. 오늘 완성한 계획은 사진으로 남겨두면 든든해요. 너의 3주를 응원할게요.</footer>
+</div></div>
+</div></div>
+
+<div id="egg"></div>
+
+<script>
+  const PAGES=[['home','홈'],['tips','공부법'],['howto','계획 짜는 법'],['plan','나만의 계획']];
+  const navBar=document.getElementById('navBar');
+  PAGES.forEach(function(p){var b=document.createElement('button');b.textContent=p[1];b.dataset.id=p[0];b.onclick=function(){go(p[0]);};navBar.appendChild(b);});
+  function go(id){
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+    document.getElementById('page-'+id).classList.add('active');
+    [].forEach.call(navBar.children,function(b){b.classList.toggle('active',b.dataset.id===id);});
+    window.scrollTo(0,0);
+  }
+  go('home');
+
+  (function(){var t=new Date(EXAM_START);var now=new Date();now.setHours(0,0,0,0);var diff=Math.ceil((t-now)/864e5);document.getElementById('ddayNum').textContent=diff>0?('D-'+diff):(diff===0?'D-DAY':'시험중!');})();
+
+  // ===== EGG 4: 시간대별 헤더 인사말 =====
+  (function(){
+    var h=new Date().getHours();
+    var sub=document.querySelector('.hero-sub');
+    if(h>=23||h<5){
+      sub.innerHTML='🌙 늦은 시간까지 고생이 많아요. 계획을 세우는 것도 좋지만, 오늘은 너무 무리하지 말고 푹 자는 것도 공부예요.';
+    }else if(h>=5&&h<9){
+      sub.innerHTML='🌅 아침형 학생이네요! 머리가 가장 맑은 시간이에요. 오늘 하루도 천천히, 함께 시작해볼까요.';
+    }
+  })();
+
+  // ===== EASTER EGG TOAST =====
+  var eggEl=document.getElementById('egg');var eggTimer;
+  function showEgg(msg){
+    eggEl.textContent=msg;eggEl.classList.add('show');
+    clearTimeout(eggTimer);eggTimer=setTimeout(function(){eggEl.classList.remove('show');},3500);
+  }
+  function confetti(){
+    var colors=['#2C5282','#9B3A4A','#B07D20','#f3e8cf'];
+    for(var i=0;i<40;i++){
+      var c=document.createElement('div');c.className='confetti';
+      c.style.left=Math.random()*100+'vw';
+      c.style.background=colors[Math.floor(Math.random()*colors.length)];
+      c.style.animationDuration=(2+Math.random()*2)+'s';
+      c.style.animationDelay=(Math.random()*0.5)+'s';
+      document.body.appendChild(c);
+      setTimeout(function(el){return function(){el.remove();};}(c),4500);
+    }
+  }
+  // 기존 EGG: D-day 숫자 5번 탭
+  var ddayTaps=0,ddayResetTimer;
+  document.getElementById('ddayNum').addEventListener('click',function(){
+    ddayTaps++;clearTimeout(ddayResetTimer);
+    ddayResetTimer=setTimeout(function(){ddayTaps=0;},1500);
+    if(ddayTaps>=5){
+      ddayTaps=0;confetti();
+      showEgg('🍗 숨은 메시지 발견! "급식 메뉴는 못 바꿔도, 시험 점수는 네가 바꿀 수 있어!"');
+    }
+  });
+
+  // ===== GRADE SELECTION (홈 + 계획 페이지 동기화) =====
+  var curGrade="1";
+  var gradeSel=document.getElementById('gradeSel');
+  var planGrade=document.getElementById('planGrade');
+  function syncGradeButtons(){
+    [].forEach.call(gradeSel.children,function(x){x.classList.toggle('active',x.dataset.g===curGrade);});
+    [].forEach.call(planGrade.children,function(x){if(x.dataset.g)x.classList.toggle('active',x.dataset.g===curGrade);});
+  }
+  function setGrade(g){
+    if(g===curGrade)return;
+    curGrade=g;curSubj=null;
+    syncGradeButtons();
+    renderSchedule();renderRanges();renderAll();
+  }
+  [].forEach.call(gradeSel.children,function(b){b.onclick=function(){setGrade(b.dataset.g);};});
+  [].forEach.call(planGrade.children,function(b){if(b.dataset.g)b.onclick=function(){setGrade(b.dataset.g);};});
+  function renderSchedule(){
+    var sb=document.getElementById('schedBody');sb.innerHTML='';
+    SCHEDULE[curGrade].forEach(function(day){
+      day[2].forEach(function(p,idx){
+        var tr=document.createElement('tr');
+        var dayCell = idx===0 ? '<td class="t-day" rowspan="'+day[2].length+'">'+day[0]+' ('+day[1]+')</td>' : '';
+        tr.innerHTML=dayCell+'<td class="t-period">'+p[0]+' <span style="opacity:.75">'+p[1]+'</span></td><td class="t-subj">'+p[2]+'</td>';
+        sb.appendChild(tr);
+      });
+    });
+  }
+  function renderRanges(){
+    var rg=document.getElementById('rangeGrid');rg.innerHTML='';
+    RANGES[curGrade].forEach(function(r){
+      var d=document.createElement('div');d.className='range-card';
+      d.innerHTML='<h3>'+r[1]+' '+r[0]+'</h3><div class="ch">'+r[2]+'</div>';
+      rg.appendChild(d);
+    });
+  }
+
+  // ===== STUDY TIPS =====
+  var TIPS=[
+    ['국어 \u{1F4D6}',['지문을 한 번 읽은 뒤, 핵심 문장과 주제어에 직접 표시하며 다시 읽어봐요','시는 화자의 마음, 정서, 표현법(비유·상징)을 노트에 정리해두면 좋아요','교과서 학습활동 문제는 시험에 자주 나오니 꼭 풀어봐요','문법(품사)은 외우기보다 예문에 직접 적용해보면 쉽게 익혀져요']],
+    ['수학 \u{1F4D0}',['개념을 정리한 뒤 기본 문제부터, 그다음 응용 문제로 차근차근','틀린 문제는 표시해두고 며칠 뒤 다시 풀어보면 진짜 내 것이 돼요','함수·방정식은 그래프를 직접 그려보며 이해하면 안 잊어요','시험 직전엔 새 문제집보다 틀렸던 문제를 다시 보는 게 효과적이에요']],
+    ['영어 \u{1F524}',['본문은 소리 내어 읽고, 해석까지 막힘없이 되는지 확인해봐요','단어는 한 번에 몰아서보다 매일 조금씩 쌓아가면 오래 남아요','문법은 규칙을 익힌 뒤 직접 문장을 만들어보면 확실해져요','교과서 본문 빈칸 채우기로 스스로 점검해봐요']],
+    ['과학 \u{1F52C}',['용어의 뜻을 정확히 알아두면 비슷한 말에 헷갈리지 않아요','그래프와 실험 과정은 직접 그려보며 이해하면 기억에 잘 남아요','외우기보다 "왜 그렇게 될까"를 생각하면 응용 문제도 풀려요','실험 결과·단위·공식은 표로 정리해서 한눈에 봐요']],
+    ['사회 \u{1F30F}',['목차를 먼저 보며 단원의 큰 흐름을 잡으면 길이 보여요','지도·도표·자료를 꼼꼼히 봐두면 해석 문제가 편해져요','개념과 실제 사례를 연결해보면 오래 기억돼요','프린트와 노트 필기 내용이 곧 시험 범위라는 걸 잊지 말아요']],
+    ['역사 \u{1F4DC}',['연표를 직접 그려 사건의 순서와 흐름을 잡아봐요','인물·사건·결과를 묶어서 "왜 일어났나"를 이해해요','지도와 함께 보면 지역·나라 이름이 헷갈리지 않아요','비슷한 시대(중국사·유럽사)는 표로 비교하며 정리해요']],
+    ['도덕 \u{1F91D}',['핵심 가치와 개념을 내 말로 설명할 수 있는지 확인해봐요','교과서 사례와 토론 활동 내용을 정리해두면 든든해요','외우기보다 "내 생각"을 묻는 서술형을 함께 대비해요','노트 필기와 활동지를 빠짐없이 복습해봐요']]
+  ];
+  var acc=document.getElementById('tipAcc');
+  TIPS.forEach(function(t){
+    var box=document.createElement('div');box.className='acc';
+    var head=document.createElement('div');head.className='acc-head';
+    head.innerHTML='<span>'+t[0]+'</span><span class="acc-icon">+</span>';
+    var body=document.createElement('div');body.className='acc-body';
+    body.innerHTML='<ul>'+t[1].map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul>';
+    head.onclick=function(){box.classList.toggle('open');};
+    box.appendChild(head);box.appendChild(body);acc.appendChild(box);
+  });
+
+  // ===== PLANNER (오늘 중심) =====
+  // 시험 첫날(7/1) 기준 3주 전 ~ 시험 전날까지 21일을 다룸
+  var DAY_KO=['일','월','화','수','목','금','토'];
+  // planData[dateKey] = [{txt, sub, rate}]
+  var planData={};
+  function keyOf(d){return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
+
+  // 21일 윈도우: 시험 첫날 하루 전까지가 마지막, 그 21일 전이 첫날
+  var examDate=new Date(EXAM_START);
+  var trackEnd=new Date(examDate);trackEnd.setDate(trackEnd.getDate()-1); // 시험 전날
+  var trackStart=new Date(trackEnd);trackStart.setDate(trackStart.getDate()-20); // 21일 윈도우 시작
+  // 현재 보는 날짜: 오늘. 단 윈도우 밖이면 가까운 쪽으로 보정
+  var viewDate=new Date();viewDate.setHours(0,0,0,0);
+  if(viewDate<trackStart)viewDate=new Date(trackStart);
+  if(viewDate>trackEnd)viewDate=new Date(trackEnd);
+
+  var procrastCount={}; // EGG 3: 미루기 추적
+
+  // EGG 1: 숨은 단어 사전
+  function checkSecretWord(v){
+    var t=v.replace(/\s/g,'');
+    var map={
+      '치킨':'🍗 시험 끝나면 치킨 한 마리 약속! 그때까지 조금만 더 힘내요.',
+      '급식':'🍱 오늘 급식도 든든하게! 잘 먹어야 공부도 잘돼요.',
+      '방학':'🏖️ 방학이 머지않았어요. 이 시험만 잘 넘기면 진짜 쉴 수 있어요!',
+      '게임':'🎮 게임은 시험 끝나고 마음껏! 지금의 인내가 그때 더 꿀잼으로 돌아와요.',
+      '잠':'😴 잠도 공부의 일부예요. 충분히 자야 외운 게 머리에 남아요.',
+      '사랑':'💌 자기 자신을 사랑하는 것부터. 오늘의 너, 충분히 잘하고 있어요.',
+      '치트키':'🕹️ 치트키는 없지만, 매일의 작은 노력이 사실 제일 강한 치트키예요.',
+      '루피':'🏴‍☠️ 해적왕은 못 돼도, 이번 시험의 왕은 될 수 있어요!'
+    };
+    for(var k in map){if(t.indexOf(k)>-1)return map[k];}
+    return null;
+  }
+
+  function todayList(){var k=keyOf(viewDate);if(!planData[k])planData[k]=[];return planData[k];}
+  function rateValue(r){return r==='o'?1:(r==='t'?0.5:0);}
+
+  // ---- 날짜 표시 ----
+  function renderDate(){
+    var m=viewDate.getMonth()+1,d=viewDate.getDate(),w=DAY_KO[viewDate.getDay()];
+    var todayReal=new Date();todayReal.setHours(0,0,0,0);
+    var isToday=keyOf(viewDate)===keyOf(todayReal);
+    document.getElementById('dateMain').textContent=m+'월 '+d+'일 ('+w+')';
+    var diff=Math.ceil((examDate-viewDate)/864e5);
+    document.getElementById('dateSub').textContent=(isToday?'오늘 · ':'')+'시험까지 D-'+diff;
+    document.getElementById('prevDay').disabled=(keyOf(viewDate)===keyOf(trackStart));
+    document.getElementById('nextDay').disabled=(keyOf(viewDate)===keyOf(trackEnd));
+    document.getElementById('prevDay').style.opacity=document.getElementById('prevDay').disabled?'.35':'1';
+    document.getElementById('nextDay').style.opacity=document.getElementById('nextDay').disabled?'.35':'1';
+  }
+
+  // ---- 3주 미니 트랙 ----
+  function renderTrack(){
+    var mt=document.getElementById('miniTrack');mt.innerHTML='';
+    var todayReal=new Date();todayReal.setHours(0,0,0,0);
+    for(var i=0;i<21;i++){(function(i){
+      var d=new Date(trackStart);d.setDate(d.getDate()+i);
+      var list=planData[keyOf(d)]||[];
+      var dot=document.createElement('div');dot.className='dot';
+      dot.title=(d.getMonth()+1)+'/'+d.getDate();
+      if(list.length){
+        var allRated=list.every(function(x){return x.rate;});
+        dot.classList.add(allRated?'full':'has');
+      }
+      if(keyOf(d)===keyOf(viewDate))dot.classList.add('today');
+      dot.onclick=function(){viewDate=new Date(d);renderAll();};
+      mt.appendChild(dot);
+    })(i);}
+  }
+
+  // ---- 과목 선택 ----
+  var curSubj=null; // 마지막 누른 과목 (키워드 가이드용)
+  function renderSubjRow(){
+    var sr=document.getElementById('subjRow');sr.innerHTML='';
+    RANGES[curGrade].forEach(function(r){
+      var subj=r[0],emoji=r[1];
+      var chip=document.createElement('div');chip.className='chip';chip.textContent=emoji+' '+subj;
+      if(subj===curSubj)chip.classList.add('open');
+      chip.onclick=function(){
+        curSubj=subj;
+        [].forEach.call(sr.children,function(c){c.classList.toggle('open',c===chip);});
+        updateKwTitle();
+      };
+      sr.appendChild(chip);
+    });
+  }
+  function updateKwTitle(){
+    var el=document.getElementById('kwTitle');
+    if(curSubj)el.innerHTML='<b>'+curSubj+'</b> 공부, 어떤 걸 할까요?';
+    else el.textContent='공부, 어떤 걸 할까요?';
+  }
+
+  // ---- 키워드 가이드 ----
+  var KEYWORDS=['개념 정리','문제 풀기','오답 복습','교과서 풀기','요점 정리','암기하기','기출 풀기','틀린 것 다시보기'];
+  function renderKeywords(){
+    var box=document.getElementById('kwChips');box.innerHTML='';
+    KEYWORDS.forEach(function(kw){
+      var c=document.createElement('div');c.className='kw-chip';c.textContent=kw;
+      c.onclick=function(){addTask(kw,curSubj||'');};
+      box.appendChild(c);
+    });
+  }
+
+  function addTask(label,subj){
+    procrastCount[label]=(procrastCount[label]||0)+1;
+    todayList().push({txt:label,sub:subj,rate:null});
+    renderTodayList();renderTrack();updateProg();
+    if(procrastCount[label]>=3){
+      showEgg('🤔 "'+label+'", 우리 자주 만나네요? 오늘은 진짜 한번 해볼까요!');
+      eggEl.style.background='#9B3A4A';eggEl.style.borderColor='#d99';
+      setTimeout(function(){eggEl.style.background='';eggEl.style.borderColor='';},3500);
+    }else{
+      showEgg('"'+label+'" 담았어요! 끝나면 ○△✗로 평가해요 👏');
+      eggEl.style.background='#1e7e4f';eggEl.style.borderColor='#7dd3a8';
+      setTimeout(function(){eggEl.style.background='';eggEl.style.borderColor='';},3500);
+    }
+  }
+  // ---- 오늘 할 일 목록 ----
+  function renderTodayList(){
+    var list=todayList();
+    var box=document.getElementById('todayList');box.innerHTML='';
+    list.forEach(function(it,ii){
+      var row=document.createElement('div');
+      row.className='chk'+(it.rate==='o'?' rated-o':'')+(it.rate==='x'?' rated-x':'');
+      var rate=document.createElement('div');rate.className='rate';
+      [['o','○'],['t','△'],['x','✗']].forEach(function(pair){
+        var btn=document.createElement('button');btn.textContent=pair[1];
+        if(it.rate===pair[0])btn.classList.add('sel-'+pair[0]);
+        btn.onclick=function(){it.rate=(it.rate===pair[0])?null:pair[0];renderTodayList();renderTrack();updateProg();checkAllDone();};
+        rate.appendChild(btn);
+      });
+      var sp=document.createElement('span');sp.className='txt';sp.textContent=it.txt;
+      row.appendChild(rate);
+      if(it.sub){var tag=document.createElement('span');tag.className='sub-tag';tag.textContent=it.sub;row.appendChild(tag);}
+      row.appendChild(sp);
+      var rm=document.createElement('span');rm.className='rm';rm.textContent='×';
+      rm.onclick=function(){list.splice(ii,1);renderTodayList();renderTrack();updateProg();};
+      row.appendChild(rm);
+      box.appendChild(row);
+    });
+  }
+
+  // ---- 직접 추가 ----
+  (function(){
+    var inp=document.getElementById('freeInput');
+    function doAdd(){
+      if(inp.value.trim()){
+        var v=inp.value.trim();
+        var secret=checkSecretWord(v);
+        if(secret){showEgg(secret);inp.value='';return;}
+        todayList().push({txt:v,sub:'',rate:null});inp.value='';renderTodayList();renderTrack();updateProg();
+      }
+    }
+    document.getElementById('freeAdd').onclick=doAdd;
+    inp.onkeydown=function(e){if(e.key==='Enter')doAdd();};
+  })();
+
+  // ---- 날짜 이동 ----
+  document.getElementById('prevDay').onclick=function(){if(keyOf(viewDate)!==keyOf(trackStart)){viewDate.setDate(viewDate.getDate()-1);renderAll();}};
+  document.getElementById('nextDay').onclick=function(){if(keyOf(viewDate)!==keyOf(trackEnd)){viewDate.setDate(viewDate.getDate()+1);renderAll();}};
+
+  // ---- 진척률 (오늘 기준) ----
+  var ringFill=document.getElementById('ringFill'),ringPct=document.getElementById('ringPct'),progMsg=document.getElementById('progMsg');
+  function updateProg(){
+    var list=todayList();var total=list.length,score=0,rated=0;
+    list.forEach(function(t){score+=rateValue(t.rate);if(t.rate)rated++;});
+    var pct=total?Math.round(score/total*100):0;
+    ringFill.style.strokeDashoffset=238-(238*pct/100);ringPct.textContent=pct+'%';
+    var m;
+    if(total===0)m='과목을 눌러 오늘 할 공부를 담아보는 것, 그게 멋진 첫걸음이에요.';
+    else if(rated===0)m='오늘 할 일을 정했네요. 하나 끝낼 때마다 <b>○ △ ✗</b>로 평가해봐요.';
+    else if(pct<40)m='좋은 출발이에요! 스스로 점검하는 모습이 정말 멋져요.';
+    else if(pct<70)m='절반 가까이 왔어요. △가 있다면 한 번 더 보면 ○가 될 거예요.';
+    else if(pct<100)m='거의 다 왔어요! 오늘 너는 잘하고 있어요.';
+    else m='오늘 모두 ○! 이 하루하루가 쌓여 진짜 실력이 돼요. 자랑스러워요.';
+    progMsg.innerHTML=m;
+    if(total>=3 && rated===total-1){showEgg('🔥 딱 하나 남았어요! 여기서 멈추면 반칙이에요. 마지막 하나, 평가까지 가보자!');}
+  }
+  function checkAllDone(){
+    var list=todayList();var total=list.length,allO=list.filter(function(t){return t.rate==='o';}).length;
+    if(total>=4&&total===allO){confetti();showEgg('🎉 오늘 할 일을 모두 ○로 끝냈어요! 오늘의 너, 최고예요!');}
+  }
+
+  function renderAll(){renderDate();renderTrack();renderSubjRow();renderTodayList();renderKeywords();updateKwTitle();updateProg();}
+
+  // ===== EGG 2: 제목 클릭 시 비밀 응원 (콘솔 + 토스트) =====
+  var titleClicks=0;
+  document.getElementById('mainTitle').addEventListener('click',function(){
+    titleClicks++;
+    if(titleClicks===7){
+      titleClicks=0;confetti();
+      showEgg('🐰 비밀 발견! 선생님이 숨겨둔 한마디: "지금 이 글 읽는 너, 분명 잘 될 거야. 선생님이 보증함."');
+    }
+  });
+  // 콘솔 이스터에그 (개발자 도구 여는 학생용)
+  console.log('%c🎓 생극중 친구들, 여기까지 열어보다니 대단한걸!','color:#2C5282;font-size:18px;font-weight:bold');
+  console.log('%c시험 잘 보고, 끝나면 치킨 먹자. — 선생님이','color:#9B3A4A;font-size:14px');
+
+  // ===== EGG 5: 푸터 병아리 연타 응원 =====
+  var cheerTaps=0,cheerTimer;
+  document.getElementById('footerCheer').addEventListener('click',function(){
+    cheerTaps++;clearTimeout(cheerTimer);
+    cheerTimer=setTimeout(function(){cheerTaps=0;},1200);
+    if(cheerTaps>=3){
+      cheerTaps=0;confetti();
+      showEgg('🐤 생극중 파이팅! 우리 모두 함께 이 시험, 잘 넘겨봐요!');
+    }
+  });
+
+  // ===== INIT =====
+  syncGradeButtons();
+  renderSchedule();renderRanges();renderAll();
+</script>
+</body>
+</html>
